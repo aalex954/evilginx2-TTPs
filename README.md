@@ -36,6 +36,12 @@ An additional and likely somewhat redundant (in the context of EOP) list can be 
 
 This list represents all IP address ranges owned by Microsoft as reported by WHOIS/ASN ownership.
 
+__An updated list can be downloaded here:__
+
+https://github.com/aalex954/MSFT-IP-Tracker/releases/download/{%Y%m%d}/msft_asn_ip_ranges.txt
+
+_Update the URL in the following format: %Y%m%d or YYYYMMDD_
+
 ## User-agent Filtering
 
 User-agent filtering is a new feature in version 2.4. It allows you to filter requests to your phishing link based on the originating _User-Agent_ header.
