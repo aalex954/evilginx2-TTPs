@@ -11,6 +11,8 @@ A forked repo containing modifications and additional configurations to prevent 
 
 Removed the two IOC embeded in the response header. 
 
+- X-Evilginx request header
+
 - ```egg2 := req.Host```
 - ```[]byte{0x94, 0xE1, 0x89, 0xBA, 0xA5, 0xA0, 0xAB, 0xA5, 0xA2, 0xB4}```
 - ```hg[n] = b ^ 0xCC```
