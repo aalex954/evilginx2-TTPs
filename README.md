@@ -9,14 +9,32 @@ A forked repo containing modifications and additional configurations to prevent 
 
 ## IOC Removal
 
-Removed the two IOC embeded in the response header. 
+Removed the IOC embeded in the response header. 
 
-- X-Evilginx request header
+- store request url
+```
+egg2 := req.Host
+```
 
-- ```egg2 := req.Host```
-- ```[]byte{0x94, 0xE1, 0x89, 0xBA, 0xA5, 0xA0, 0xAB, 0xA5, 0xA2, 0xB4}```
-- ```hg[n] = b ^ 0xCC```
-- ```req.Header.Set(string(hg), egg2)```
+- byte array of hex values
+```
+[]byte{0x94, 0xE1, 0x89, 0xBA, 0xA5, 0xA0, 0xAB, 0xA5, 0xA2, 0xB4}
+```
+
+- bitwise XOR
+     ```
+      for n, b := range hg {
+        hg[n] = b ^ 0xCC
+       }
+    ```
+   
+- set request header
+
+```
+req.Header.Set(string(hg), egg2)
+```
+- base-64 decoded
+  - X-Evilginx : {req.Host}
 
 ## IP Blacklist
 
