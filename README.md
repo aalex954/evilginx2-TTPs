@@ -5,7 +5,7 @@ A forked repo containing modifications and additional configurations to prevent 
 - IOC Removal
 - EOP/MSFT IP Blacklist
 - User-Agent Filtering
-- DMARC / SPF / DKIM
+- SPF / DKIM
 - Domain Aging
 - Site Ranking
 
