@@ -5,6 +5,9 @@ A forked repo containing modifications and additional configurations to prevent 
 - IOC Removal
 - EOP/MSFT IP Blacklist
 - User-Agent Filtering
+- DMARC / SPF / DKIM
+- Domain Aging
+- Site Ranking
 
 
 ## IOC Removal
@@ -66,17 +69,23 @@ Although somewhat redundant (in the context of EOP) an updated list can be gener
 
 An updated blaklist can be generated using one of the methods below.
 
-#### [ASN2IP](https://github.com/aalex954/ASN-2-IP)
+#### ASN2IP
 
-This list is generated and published each day representing all IP address ranges owned by Microsoft as reported by WHOIS/ASN ownership.
+A PowerShell Core [tool](https://github.com/aalex954/ASN-2-IP) to track Microsoft IPs for use in security research, firewall configuration, routing, and troubleshooting.
 
-#### [MSFT-IP-TRACKER](https://github.com/aalex954/MSFT-IP-Tracker)
 
-__An updated list can be downloaded here:__
+#### MSFT-IP-Tracker
 
-- msft_asn_ip_ranges.txt
+This [list](https://github.com/aalex954/MSFT-IP-Tracker) is generated and published each day representing all IP address ranges owned by Microsoft as reported by WHOIS/ASN ownership.
 
-- wget https://github.com/aalex954/MSFT-IP-Tracker/releases/latest/download/msft_asn_ip_ranges.txt
+
+##### An updated list can be downloaded here
+
+[msft_asn_ip_ranges.txt](https://github.com/aalex954/MSFT-IP-Tracker/releases/latest/download/msft_asn_ip_ranges.txt)
+
+```bash
+wget https://github.com/aalex954/MSFT-IP-Tracker/releases/latest/download/msft_asn_ip_ranges.txt
+```
 
 ---
 
@@ -120,3 +129,61 @@ After about 10 minutes you can unhide the phsihlet.
 ```phishlets unhide outlook```
 
 A downside to this method is that if a user clicks on the phishing email in the first 10 minutes, they will be reditected and will not get phished.
+
+---
+
+## DNS
+
+To increase our chance of bypassing EOP, SafeLinks, spam filtering, etc. we need to try to increase our domains reputation. 
+The domains age, clasification, and usage of proper email verification techniques all impact the reputation.
+
+### Domain Names
+
+To perform any phishing attack you must control some domain. Its a good idea to buy a handful every few months so you always have aged domains on hand. Try choosing domain names that makes sense in the context of your campaign. Generic sounding domains containing keywords such as 'corporate' or 'internal' are safe bets. Also consider the phishing lure being used. 
+
+---
+
+### SPF / DKIM Records
+
+#### SPF - Sender Policy Framework
+
+A TXT record needs to be created containing the following
+
+| Key | Value |
+|--------------------|---------------------------------|
+| _dmarc.DOMAIN.COM | v=DMARC1; p=quarantine; pct=100;|
+
+### DKIM - DomainKeys Identified Mail
+
+While DKIM isn’t required, having emails that are signed with DKIM appear more legitimate to your recipients and are less likely to end up in the junk or spam folders.
+The steps to generate a domain key will be different depending on your email provider. Ultimately, this information will be put into a TXT record similar to what we did for SPF.
+
+| Key | Value |
+|--------------------|---------------------------------|
+| selector1._domainkey | selector1-contoso-com._domainkey.contoso.onmicrosoft.com|
+
+---
+
+#### Domain Aging
+
+It is best practice to use aged domains due as newer domains are susceptible to being flagged for being recently created. Organizations can actually configure their email filtering to recognize newly registered domains to ensure they are blocked from entering their employees' mailboxes. Domains should be aged as long as possible before being used in a campaign. 
+
+---
+
+## Site Classification
+
+Site categorization is used to determine specific categories for a website. If this step is skipped, a domain is at risk for being seen as uncategorized, which may look suspicious and end up getting flagged as malicious.
+
+Ensure your site is categorized by one or more of the following:
+
+- Fortiguard
+- Symantec + BlueCoat
+- Checkpoint
+- Palo Alto
+- Sophos (submission only)
+- TrendMicro
+- Brightcloud
+ 
+It is best to usually categorize your site as Business, Finance, or IT. It is important to use a real email address and have real content pointing to your 'www' A record to ensure the site looks like a reputable domain. Site categorization takes up to 1-2 days. You can check on the status of your site by revisiting a few of the links mentioned above.
+
+---
