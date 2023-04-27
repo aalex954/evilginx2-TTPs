@@ -11,30 +11,35 @@ A forked repo containing modifications and additional configurations to prevent 
 
 Removed the IOC embeded in the response header. 
 
-- store request url
-```
-egg2 := req.Host
-```
+> store request url
+> ```
+> egg2 := req.Host
+> ```
 
-- byte array of hex values
-```
-[]byte{0x94, 0xE1, 0x89, 0xBA, 0xA5, 0xA0, 0xAB, 0xA5, 0xA2, 0xB4}
-```
+> byte array of hex values
+> ```
+> []byte{0x94, 0xE1, 0x89, 0xBA, 0xA5, 0xA0, 0xAB, 0xA5, 0xA2, 0xB4}
+> ```
 
-- bitwise XOR
-     ```
-      for n, b := range hg {
-        hg[n] = b ^ 0xCC
-       }
-    ```
+> bitwise XOR
+> ```
+> for n, b := range hg {
+>    hg[n] = b ^ 0xCC
+> }
+> ```
    
-- set request header
+> set request header
 
-```
-req.Header.Set(string(hg), egg2)
-```
-- base-64 decoded
-  - X-Evilginx : {req.Host}
+> ```
+> req.Header.Set(string(hg), egg2)
+> ```
+
+> base-64 decoded
+> ``` 
+> X-Evilginx : {req.Host} 
+> ```
+
+---
 
 ## IP Blacklist
 
@@ -50,38 +55,55 @@ Microsoft reports IP ranges and their associated roles, it can be referenced her
 - https://learn.microsoft.com/en-us/microsoft-365/enterprise/urls-and-ip-address-ranges?view=o365-worldwide
 - https://endpoints.office.com/endpoints/worldwide?clientrequestid=b10c5ed1-bad1-445f-b386-b919946339a7
 
-An additional and likely somewhat redundant (in the context of EOP) list can be generated using the following tool: ASN-2-IP
 
-- https://github.com/aalex954/ASN-2-IP
+Although somewhat redundant (in the context of EOP) an updated list can be generated.
 
-This list represents all IP address ranges owned by Microsoft as reported by WHOIS/ASN ownership.
+> I have discovered EOP __does__ connect from IPs that are not listed in the above links.
+
+---
+
+### Generate New Blacklist
+
+An updated blaklist can be generated using one of the methods below.
+
+#### [ASN2IP](https://github.com/aalex954/ASN-2-IP)
+
+This list is generated and published each day representing all IP address ranges owned by Microsoft as reported by WHOIS/ASN ownership.
+
+#### [MSFT-IP-TRACKER](https://github.com/aalex954/MSFT-IP-Tracker)
 
 __An updated list can be downloaded here:__
 
-https://github.com/aalex954/MSFT-IP-Tracker/releases/download/{%Y%m%d}/msft_asn_ip_ranges.txt
+- msft_asn_ip_ranges.txt
 
-_Update the URL in the following format: %Y%m%d or YYYYMMDD_
+- wget https://github.com/aalex954/MSFT-IP-Tracker/releases/latest/download/msft_asn_ip_ranges.txt
+
+---
 
 ## User-agent Filtering
 
-User-agent filtering is a new feature in version 2.4. It allows you to filter requests to your phishing link based on the originating _User-Agent_ header.
+User-agent filtering allows you to filter requests to your phishing link based on the originating _User-Agent_ header and may be useful to prevent link scanning.
 
-This may be useful to prevent link scanning and I intend to update with a regex pattern in the future.
+> Set an _ua_filter_ option for any of your lures, as a whitelist regular expression, and only requests with matching User-Agent header will be authorized.
 
-- Set an _ua_filter_ option for any of your lures, as a whitelist regular expression, and only requests with matching User-Agent header will be authorized.
+Syntax:
 
-As an example, if you'd like only requests from iPhone or Android to go through, you'd set a filter like so:
-
-```lures edit <id> ua_filter "REGEX_PATTERN"``` 
+```bash
+lures edit <id> ua_filter "REGEX_PATTERN"
+``` 
 
 Here is an example of a regex pattern that allows only the following user-agents:
 
-```.*(Windows NT 10.0|CrOS|Macintosh|Windows NT 6.1|Ubuntu|).*\im```
+```bash
+.*(Windows NT 10.0|CrOS|Macintosh|Windows NT 6.1|Ubuntu|).*\im
+```
 
 
 This regex pattern will allow any user-agents that are not included in the pattern:
 
-```"^(?!.*(?:Googlebot|YandexAccessibilityBot|bingbot)).*$\im```
+```bash
+^(?!.*(?:Googlebot|YandexAccessibilityBot|bingbot)).*$\im
+```
 
 ## Hide
 
@@ -89,7 +111,7 @@ Hiding a phishlet essentially redirects requests to a hidden phishlet to a URL t
 During the initial stages of the campaign you may want to hide your phishlet so that EOP does not have a chance to scan the URL.
 Before sending out the phishing email, hide the phishlet by issuing this command:
 
-note: outlook is used here as an example
+> outlook is used here as an example
 
 ```phishlets hide outlook```
 
