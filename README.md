@@ -12,33 +12,115 @@ A forked repo containing modifications and additional configurations to prevent 
 
 ## IOC Removal
 
-Removed the IOC embeded in the response header. 
+Removed both IOC headers in ```evilginx2-tuned/core/http_proxy.go```
+
+### Hello, World!
+
+request header containing the following:
+
+``` js
+X-Evilginx: : [80 253 149 118 169 176 183 169 182 184] 
+```
+
+---
+
+#### Removed Code
+
+> byte sequence
+> ``` go
+> e := []byte{208, 165, 205, 254, 225, 228, 239, 225, 230, 240}
+> ```
+
+> decrypt byte array using bitwise XOR operation with constant 0x88
+> ``` go
+> for n, b := range e {
+> 	e[n] = b ^ 0x88
+> }
+> ```
+
+> decrypted byte array
+> ``` go
+> [80 253 149 118 169 176 183 169 182 184]
+>
+
+> set request header
+> ``` go
+> req.Header.Set(string(e), e_host)
+> ```
+
+> if request authorized
+> ``` go
+> p.cantFindMe(req, e_host)
+> ```
+
+> function takes hostname
+> ``` go
+> cantFindMe(req *http.Request, nothing_to_see_here string)
+> ```
+
+> encrypted string as byte array
+> ``` go
+> var b []byte = []byte("\x1dh\x003,)\",+=")
+> ```
+
+> decrypt string using bitwise XOR operation with constant 0x45
+> ``` go
+> for n, c := range b {
+> 	b[n] = c ^ 0x45
+> }
+> ```
+
+> decrypted string
+> ``` go
+> "X-Evilginx"
+> ```
+
+> set the request header with decrypted string
+> ``` go
+> req.Header.Set(string(b), nothing_to_see_here)
+> ```
+
+> header
+> ``` js
+> X-Evilginx: : [80 253 149 118 169 176 183 169 182 184]
+> ```
+
+---
+
+### egg2
+
+request header containing the following:
+
+``` js
+X-Evilginx : {req.Host}
+```
+
+#### Removed Code
 
 > store request url
-> ```
+> ``` go
 > egg2 := req.Host
 > ```
 
 > byte array of hex values
-> ```
+> ``` go
 > []byte{0x94, 0xE1, 0x89, 0xBA, 0xA5, 0xA0, 0xAB, 0xA5, 0xA2, 0xB4}
 > ```
 
 > bitwise XOR
-> ```
+> ``` go
 > for n, b := range hg {
 >    hg[n] = b ^ 0xCC
 > }
 > ```
    
 > set request header
-
-> ```
+> ``` go
 > req.Header.Set(string(hg), egg2)
 > ```
 
 > base-64 decoded
-> ``` 
+> ``` js
 > X-Evilginx : {req.Host} 
 > ```
 
