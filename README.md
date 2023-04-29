@@ -1,6 +1,6 @@
 # evilginx2-removed-iocs
 
-A forked repo containing modifications and additional configurations to prevent detections by EOP/SafeLinks.
+A fork of kgretzky/evilginx2 including my TTPs, IOC header removal, customizations and additional configurations to prevent detections by EOP/SafeLinks.
 
 - IOC Removal
 - EOP/MSFT IP Blacklist
