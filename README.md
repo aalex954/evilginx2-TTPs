@@ -8,6 +8,8 @@ A fork of kgretzky/evilginx2 including my TTPs, IOC header removal, customizatio
 - SPF / DKIM
 - Domain Aging
 - Site Ranking
+- CloudFlare CAPTCHA
+- Google AMP Redirects
 
 
 ## IOC Removal
@@ -267,5 +269,24 @@ Ensure your site is categorized by one or more of the following:
 - Brightcloud
  
 It is best to usually categorize your site as Business, Finance, or IT. It is important to use a real email address and have real content pointing to your 'www' A record to ensure the site looks like a reputable domain. Site categorization takes up to 1-2 days. You can check on the status of your site by revisiting a few of the links mentioned above.
+
+---
+
+## CloudFlare CAPTCHA
+
+\\TODO
+
+---
+
+## Googla AMP Redirects
+
+https://cofense.com/blog/google-amp-the-newest-of-evasive-phishing-tactic/
+
+Google Accelerated Mobile Pages (AMP) can be abused to bypass phishing protections by presenting a trustworthy domain with containing a redirect.
+
+The lure URL can be embedded into the Google AMP URL like this:
+
+```https://www.google.com/amp/s/``` / ```phish_url``` or ```https://www.google.co.uk/amp/s/``` / ```phish_url```
+
 
 ---
