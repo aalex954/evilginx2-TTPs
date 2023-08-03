@@ -278,7 +278,7 @@ It is best to usually categorize your site as Business, Finance, or IT. It is im
 
 ---
 
-## Googla AMP Redirects
+## Google AMP Redirects
 
 https://cofense.com/blog/google-amp-the-newest-of-evasive-phishing-tactic/
 
