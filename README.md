@@ -302,7 +302,9 @@ Because the "display name" and "from email" are in the same visual element, the 
 
 For example:
 
-```Your Manager\s\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\sTo:colleague1<colleague1@company\.com>```
+```
+Your Manager\s\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\sTo:colleague1<colleague1@company\.com>
+```
 
 Would display similar to this:
 
