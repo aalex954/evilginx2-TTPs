@@ -10,6 +10,7 @@ A fork of kgretzky/evilginx2 including my TTPs, IOC header removal, customizatio
 - Site Ranking
 - CloudFlare CAPTCHA
 - Google AMP Redirects
+- Manipulate "Display Name" for Outlook
 
 
 ## IOC Removal
@@ -288,5 +289,72 @@ The lure URL can be embedded into the Google AMP URL like this:
 
 ```https://www.google.com/amp/s/``` / ```phish_url``` or ```https://www.google.co.uk/amp/s/``` / ```phish_url```
 
+
+---
+
+## Manipulate "Display Name" for Outlook
+
+The "display name" field in the email can be used to manipulate to "from email" field off the screen.
+
+This is working in Outlook desktop and OWA as of 08/08/23
+
+Because the "display name" and "from email" are in the same visual element, the "from email" can be manipulated by pushing it out of the displayed element using non-visable Unicode characters.
+
+For example:
+
+```Your Manager\s\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\u2800\sTo:colleague1<colleague1@company\.com>```
+
+Would display similar to this:
+
+![Screenshot 2023-08-08 234239](https://github.com/aalex954/evilginx2-tuned/assets/6628565/a88127e3-04fa-4a0a-8257-938e7736fbd7)
+
+Some possible characters:
+
+- Space (U+0020)
+- No-Break Space (U+00A0)
+- Ogham Space Mark (U+1680)
+- Mongolian Vowel Separator (U+180E)
+- En Quad (U+2000)
+- Em Quad (U+2001)
+- En Space (U+2002)
+- Em Space (U+2003)
+- Three-Per-Em Space (U+2004)
+- Four-Per-Em Space (U+2005)
+- Six-Per-Em Space (U+2006)
+- Figure Space (U+2007)
+- Punctuation Space (U+2008)
+- Thin Space (U+2009)
+- Hair Space (U+200A)
+- Zero Width Space (U+200B)
+- Zero Width Non-Joiner (U+200C)
+- Zero Width Joiner (U+200D)
+- Line Separator (U+2028)
+- Paragraph Separator (U+2029)
+- Narrow No-Break Space (U+202F)
+- Medium Mathematical Space (U+205F)
+- Ideographic Space (U+3000)
+- Braille Pattern Blank (U+2800)
+
+Regex pattern: ```[\u0020\u00A0\u1680\u180E\u2000-\u200A\u200B-\u200D\u2028-\u2029\u202F\u205F\u3000\u2800]```
+
+
+All credit goes to: https://gitlab.com/email_bug/outlook_email_auth_bypass
+
+
+### Detection
+
+To counter this, a regex pattern can be used:
+
+```(\w+\s)+[\u0020\u00A0\u1680\u180E\u2000-\u200A\u200B-\u200D\u2028-\u2029\u202F\u205F\u3000\u2800]+\sTo:\w+<\w+@\w+\.\w+>```
+
+This regex should match a string with any number of words followed by a sequence of blank-appearing characters, then the "To:" string, and an email.
+
+or more generically
+
+```(\w+\s)+[\u0020\u00A0\u1680\u180E\u2000-\u200A\u200B-\u200D\u2028-\u2029\u202F\u205F\u3000\u2800]+.*```
+
+This pattern now matches any number of words followed by a sequence of blank-appearing characters and then any sequence of characters afterward.
+
+![Screenshot 2023-08-08 235841](https://github.com/aalex954/evilginx2-tuned/assets/6628565/68be4518-b1d5-476c-9c0b-ce7a0aa1a255)
 
 ---
