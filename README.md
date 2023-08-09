@@ -1,4 +1,4 @@
-# evilginx2-removed-iocs
+# evilginx2-tuned
 
 A fork of kgretzky/evilginx2 including my TTPs, IOC header removal, customizations and additional configurations to prevent detections by EOP/SafeLinks.
 
