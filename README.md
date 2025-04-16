@@ -199,6 +199,13 @@ This regex pattern will allow any user-agents that are not included in the patte
 ^(?!.*(?:Googlebot|YandexAccessibilityBot|bingbot)).*$\im
 ```
 
+### User Agents Associated with Security Scanners
+
+> There are numerous companies launching automated scans against the entire internet to try and identify malicious infrastructure as quickly and accurately as possible. To prevent your infrastructure from being marked as malicious or added to an IOC list, you can always utilize a blacklist and block all traffic from these sensors.
+Some of these organizations will include information about themselves within their network traffic. As your team identifies scanners and their associated IP addresses, this information can be stored in a private repository and leveraged as part of build scripts for your red team infrastructure. One could either block requests entirely using iptables, or perform a specific action when scanned by an IP in the list such as serving up a dummy-page or a redirect.
+
+[SANS Leveraging Honeypot Data for Offensive Security Operations](https://isc.sans.edu/diary/Leveraging+Honeypot+Data+for+Offensive+Security+Operations+Guest+Diary/31596)
+
 ## Hide
 
 Hiding a phishlet essentially redirects requests to a hidden phishlet to a URL that is defined in the config section.
